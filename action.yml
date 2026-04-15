@@ -1,0 +1,43 @@
+---
+name: Title
+description: Fix PR title to match conventional format
+
+inputs:
+  repo:
+    description: Repository
+    required: false
+    default: ${{ github.repository }}
+
+runs:
+  using: composite
+  steps:
+    - name: Get PR title
+      id: get-title
+      shell: bash
+      run: |
+        title=$(gh pr view ${{ github.event.pull_request.number }} --repo ${{ inputs.repo }} --json title -q '.title')
+        echo "title=$title" >> $GITHUB_OUTPUT
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Fix title format
+      shell: bash
+      run: |
+        title="${{ steps.get-title.outputs.title }}"
+        new_title="$title"
+
+        if [[ "$title" =~ ^\[.*\]\  ]]; then
+          scope=$(echo "$title" | grep -oP '^\[.*?\]')
+          msg="${title#"$scope "}"
+          new_title="$scope $(echo "$msg" | tr '[:upper:]' '[:lower:]')"
+        elif [[ "$title" =~ ^([a-zA-Z]+):[[:space:]]+(.*) ]]; then
+          type="${BASH_REMATCH[1]}"
+          msg="${BASH_REMATCH[2]}"
+          new_title="[$type] $(echo "$msg" | tr '[:upper:]' '[:lower:]')"
+        fi
+
+        if [ "$new_title" != "$title" ]; then
+          gh pr edit ${{ github.event.pull_request.number }} --repo ${{ inputs.repo }} --title "$new_title"
+        fi
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
