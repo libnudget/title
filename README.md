@@ -34,6 +34,12 @@ jobs:
 **Before:** `ADD: new feature`
 **After:** `[add] new feature`
 
+Or:
+**Before:** `[feat] add new feature`
+**After:** `[feat] new feature`
+
+The `add` prefix is removed when there are duplicates.
+
 ## License
 
 MIT
