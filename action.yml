@@ -7,6 +7,9 @@ inputs:
     description: Repository
     required: false
     default: ${{ github.repository }}
+  token:
+    description: GitHub token
+    required: true
 
 runs:
   using: composite
@@ -18,7 +21,7 @@ runs:
         title=$(gh pr view ${{ github.event.pull_request.number }} --repo ${{ inputs.repo }} --json title -q '.title')
         echo "title=$title" >> $GITHUB_OUTPUT
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ inputs.token }}
 
     - name: Fix title format
       shell: bash
@@ -40,4 +43,4 @@ runs:
           gh pr edit ${{ github.event.pull_request.number }} --repo ${{ inputs.repo }} --title "$new_title"
         fi
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ inputs.token }}
