@@ -4,9 +4,10 @@ Fix PR title to conventional format.
 
 ## What it does
 
-Auto-converts PR title formats:
+Auto-converts PR title formats and removes 'add' prefixes:
 - `Add: new feature` → `[add] new feature`
 - `[ADD] new feature` → `[add] new feature`
+- `[ci] add macos job` → `[ci] macos job`
 
 ## Trigger
 
@@ -38,7 +39,11 @@ Or:
 **Before:** `[feat] add new feature`
 **After:** `[feat] new feature`
 
-The `add` prefix is removed when there are duplicates.
+Or:
+**Before:** `[ci] add macos job`
+**After:** `[ci] macos job`
+
+The `add` prefix is removed entirely from titles.
 
 ## License
 
