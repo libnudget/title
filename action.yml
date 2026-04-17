@@ -32,12 +32,13 @@ runs:
         if [[ "$title" =~ ^\[.*\]\  ]]; then
           scope=$(echo "$title" | grep -oP '^\[.*?\]')
           msg="${title#"$scope "}"
+          msg=$(echo "$msg" | sed 's/\badd \b//g')
           new_title="$scope $(echo "$msg" | tr '[:upper:]' '[:lower:]')"
         elif [[ "$title" =~ ^([a-zA-Z]+):[[:space:]]+(.*) ]]; then
           type="${BASH_REMATCH[1]}"
           msg="${BASH_REMATCH[2]}"
           msg=$(echo "$msg" | tr '[:upper:]' '[:lower:]')
-          msg=$(echo "$msg" | sed 's/^add //')
+          msg=$(echo "$msg" | sed 's/\badd \b//g')
           new_title="[$type] $msg"
         fi
 
