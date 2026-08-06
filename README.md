@@ -1,5 +1,7 @@
 # Title
 
+[![Release](https://img.shields.io/github/v/release/libnudget/title?logo=github&label=latest)](https://github.com/libnudget/title/releases)
+
 Fix PR title to conventional format.
 
 ## What it does
