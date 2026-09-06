@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Coccinella-Labs/title/main/.github/assets/thumbnail.png" alt="title" width="100%">
+</p>
+
 # Title
 
 [![Release](https://img.shields.io/github/v/release/libnudget/title?logo=github&label=latest)](https://github.com/libnudget/title/releases)
